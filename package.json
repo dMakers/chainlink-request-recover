@@ -1,0 +1,15 @@
+{
+  "name": "chainlink-recover",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mihael Dorn (https://dmakers.org)",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "web3": "^1.2.5-rc.0"
+  }
+}
