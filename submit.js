@@ -53,6 +53,7 @@ async function main() {
       nonce++
     } catch(e) {
       console.error('skipping tx ', txs[i], e)
+      continue
     }
   }
 }
