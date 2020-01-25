@@ -73,7 +73,7 @@ async function getChainlinkFulfilled(fromBlock, toBlock, requestId) {
       ],
       "id": 74
     }
-    const response = await fetch('https://ethereum-rpc2.trustwalletapp.com', {
+    const response = await fetch(RPC_URL, {
       body: JSON.stringify(body),
       method: 'POST',
       headers: {
