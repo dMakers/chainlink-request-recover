@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "find-missing-requests": "node index.js",
+    "fulfill-requests": "node submit.js"
   },
   "author": "Mihael Dorn (https://dmakers.org)",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "web3": "^1.2.5-rc.0"
   }

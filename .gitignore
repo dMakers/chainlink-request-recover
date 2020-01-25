@@ -1,2 +1,4 @@
 node_modules
 txs
+.env
+unfulfilled_requests
