@@ -23,6 +23,18 @@ Prepare `.env` file( `cp .env.example .env`)
 1. `npm i`
 2. `npm run find-missing-requests` - creates `unfulfilled_requests` file when missing requests found
 
+Example:
+```
+➜  npm run find-missing-requests
+
+> node index.js
+
+Start processing blocks from 9229786 to 9249786
+We got 445 request events. Start processing...
+Request without fillfilment found! Blocknumber is 9247478
+Start processing blocks from 9249786 to 9269786
+```
+
 ## Fulfilling requests
 
 We highly recommend generating new `PRIVATE_KEY` and additing it to your `Oracle.sol` contract for by calling
@@ -31,11 +43,13 @@ We highly recommend generating new `PRIVATE_KEY` and additing it to your `Oracle
 
 3. `npm run fulfill-requests` - it will try to fulfill missing requests from `unfulfilled_requests` file.
 
-
 Example:
+
 ```
-Start processing blocks from 9229786 to 9249786
-We got 445 request events. Start processing...
-Request without fillfilment found! Blocknumber is 9247478
-Start processing blocks from 9249786 to 9269786
+➜  npm run fulfill-requests
+
+> node submit.js
+
+nonce 1866
+A new successfully sent tx 0x0a3ee324e506bdf34d6cba8f9a59f25794f5ec03a07ad12ab37255d4caf40aad
 ```
