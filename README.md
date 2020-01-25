@@ -13,11 +13,15 @@ Prepare `.env` file
 | FAKE_RESPONSE | Node operator response for unfullfiled job |
 | RPC_URL | Ethereum HTTP node RPC url |
 | BLOCK_INTERVAL | How many blocks to query in for loop |
-| PRIVATE_KEY | Private key (without 0x) to send a request to your Oracle contract - only needed if you wish to execute it |
+| PRIVATE_KEY | Private key (without 0x) to send a request to your Oracle contract - only needed if you wish to fulfill requests |
 | GAS_PRICE | Gas price to use for sending txs in gwei |
 
 1. `npm i`
 2. `npm run find-missing-requests` - starts searching for missing requests and writes it to `unfulfilled_requests` file
+
+## Fulfilling requests
+We highly recommend adding extra key via your Oracle.sol contract for this script by calling
+`setFulfillmentPermission(YOUR_NEW_ETH_ADDRESS, true)` and enter in `.env` PRIVATE_KEY for this key.
 3. `npm run fulfill-requests` - it will try to fulfill found requests from `unfulfilled_requests` file.
 
 
