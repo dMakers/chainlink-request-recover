@@ -2,7 +2,10 @@
 As a chainlink node operator, you may have missed a few job requests. This tool helps you to find those unfullfilled requests, so you can execute them.
 
 # How to run
-Prepare `.env` file
+
+
+Prepare `.env` file( `cp .env.example .env`)
+
 
 | ENV_VAR | Description |
 | --- | --- |
@@ -16,13 +19,17 @@ Prepare `.env` file
 | PRIVATE_KEY | Private key (without 0x) to send a request to your Oracle contract - only needed if you wish to fulfill requests |
 | GAS_PRICE | Gas price to use for sending txs in gwei |
 
+
 1. `npm i`
-2. `npm run find-missing-requests` - starts searching for missing requests and writes it to `unfulfilled_requests` file
+2. `npm run find-missing-requests` - creates `unfulfilled_requests` file when missing requests found
 
 ## Fulfilling requests
-We highly recommend adding extra key via your Oracle.sol contract for this script by calling
-`setFulfillmentPermission(YOUR_NEW_ETH_ADDRESS, true)` and enter in `.env` PRIVATE_KEY for this key.
-3. `npm run fulfill-requests` - it will try to fulfill found requests from `unfulfilled_requests` file.
+
+We highly recommend generating new `PRIVATE_KEY` and additing it to your `Oracle.sol` contract for by calling
+
+`setFulfillmentPermission(YOUR_NEW_ETH_ADDRESS, true)` from owner of the contract.
+
+3. `npm run fulfill-requests` - it will try to fulfill missing requests from `unfulfilled_requests` file.
 
 
 Example:
