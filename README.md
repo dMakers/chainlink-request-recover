@@ -4,7 +4,8 @@ As a chainlink node operator, you may have missed a few job requests. This tool 
 # How to run
 
 
-Prepare `.env` file( `cp .env.example .env`)
+Prepare `.env` file
+1. `cp .env.example .env`
 
 
 | ENV_VAR | Description |
