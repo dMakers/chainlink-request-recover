@@ -18,7 +18,7 @@ web3.eth.defaultAccount = account.address
 const oracle = new web3.eth.Contract(ORACLE_ABI, ORACLE_ADDRESS)
 
 async function main() {
-  const file = '[' + fs.readFileSync('unfulfilled_requests').slice(0, -2) + ']'
+  const file = '[' + fs.readFileSync('./storage/unfulfilled_requests').slice(0, -2) + ']'
   const txs = JSON.parse(file)
   let nonce = await web3.eth.getTransactionCount(account.address)
   console.log('nonce', nonce)

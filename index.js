@@ -15,7 +15,14 @@ const {
   RPC_URL,
   BLOCK_INTERVAL
 } = process.env
-
+const params = {ORACLE_ADDRESS,
+  START_BLOCK,
+  JOB_ID,
+  NODE_ADDRESS,
+  FAKE_RESPONSE,
+  RPC_URL,
+  BLOCK_INTERVAL}
+console.log('Running with ', params)
 const web3 = new Web3(RPC_URL)
 const oracle = new web3.eth.Contract(ORACLE_ABI, ORACLE_ADDRESS)
 
@@ -109,11 +116,12 @@ async function main() {
           from: NODE_ADDRESS
         })
         if (succesfullFulfill) {
-          await fs.appendFile('unfulfilled_requests', JSON.stringify(tx) + ',\n', () => {})
+          await fs.appendFile('./storage/unfulfilled_requests', JSON.stringify(tx) + ',\n', () => {})
         } else {
           console.log('Something wrong with this request, we cannot fulfill it', requestEvent)
         }
       }
+      await fs.writeFile(`./storage/${JOB_ID}`, to, () => {})
     }
   }
 }
