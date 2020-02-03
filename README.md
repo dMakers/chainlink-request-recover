@@ -4,7 +4,8 @@ As a chainlink node operator, you may have missed a few job requests. This tool 
 # How to run
 
 
-Prepare `.env` file( `cp .env.example .env`)
+Prepare `.env` file
+1. `cp .env.example .env`
 
 
 | ENV_VAR | Description |
@@ -20,8 +21,8 @@ Prepare `.env` file( `cp .env.example .env`)
 | GAS_PRICE | Gas price to use for sending txs in gwei |
 
 
-1. `npm i`
-2. `npm run find-missing-requests` - creates `unfulfilled_requests` file when missing requests found
+2. `npm i`
+3. `npm run find-missing-requests` - creates `unfulfilled_requests` file when missing requests found
 
 Example:
 ```
@@ -41,7 +42,7 @@ We highly recommend generating new `PRIVATE_KEY` and additing it to your `Oracle
 
 `setFulfillmentPermission(YOUR_NEW_ETH_ADDRESS, true)` from owner of the contract.
 
-3. `npm run fulfill-requests` - it will try to fulfill missing requests from `unfulfilled_requests` file.
+4. `npm run fulfill-requests` - it will try to fulfill missing requests from `unfulfilled_requests` file.
 
 Example:
 

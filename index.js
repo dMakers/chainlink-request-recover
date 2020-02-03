@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Web3 = require('web3')
+const { sha3 } = require('web3-utils')
 const fetch = require('node-fetch')
 const fs = require('fs')
 const ORACLE_ABI = require('./oracle.abi.json')
@@ -57,61 +58,49 @@ async function getOracleRequestEvents(fromBlock, toBlock) {
   return events
 }
 
-async function getChainlinkFulfilled(fromBlock, toBlock, requestId) {
-    const body = {
-      "jsonrpc": "2.0",
-      "method": "eth_getLogs",
-      "params": [
-          {
-            fromBlock,
-            toBlock,
-            "topics": [
-              "0x7cc135e0cebb02c3480ae5d74d377283180a2601f8f644edf7987b009316c63a",
-              requestId
-            ]
-          }
-      ],
-      "id": 74
+async function isFulfilledRequest(requestId) {
+  const mappingPosition = '0'.repeat(63) + '2'
+  const key = sha3(requestId + mappingPosition, { encoding: 'hex' })
+  const body = {
+    "jsonrpc": "2.0",
+    "method": "eth_getStorageAt",
+    "params": [
+      ORACLE_ADDRESS,
+      key,
+      "latest"
+    ],
+    "id": 74
+  }
+  const response = await fetch(RPC_URL, {
+    body: JSON.stringify(body),
+    method: 'POST',
+    headers: {
+      "accept": "application/json",
+      "accept-language": "en-US,en;q=0.9,ru;q=0.8",
+      "cache-control": "no-cache",
+      "content-type": "application/json",
+      "pragma": "no-cache"
     }
-    const response = await fetch(RPC_URL, {
-      body: JSON.stringify(body),
-      method: 'POST',
-      headers: {
-        "accept": "application/json",
-        "accept-language": "en-US,en;q=0.9,ru;q=0.8",
-        "cache-control": "no-cache",
-        "content-type": "application/json",
-        "pragma": "no-cache"
-      }
-    })
+  })
 
-    const { result } = await response.json()
-    const events = []
-    result.forEach(event => {
-      // index_topic_1 bytes32 specId, address requester, bytes32 requestId, uint256 payment, address callbackAddr, bytes4 callbackFunctionId, uint256 cancelExpiration, uint256 dataVersion, bytes data
-      const data = web3.eth.abi.decodeLog([{type:'bytes32',name:'jobId',indexed:true}],
-          event.data,
-          event.topics);
-      data.transactionHash = event.transactionHash
-      data.blockNumber = event.blockNumber
-      events.push(data)
-    })
-    return events
+  const { result } = await response.json()
+
+  return result === '0x0000000000000000000000000000000000000000000000000000000000000000'
 }
 
 async function main() {
   const step = Number(BLOCK_INTERVAL)
   let from
   let to
-  for(let i = Number(START_BLOCK); i < 9338464; i += step) {
+  for(let i = Number(START_BLOCK); i < 9410087; i += step) {
     from = Web3Utils.toHex(i)
     to = '0x' + (Number(from) + step).toString(16)
     console.log(`Start processing blocks from ${i} to ${Number(to)}`)
     const requestEvents = await getOracleRequestEvents(from, to)
     console.log(`We got ${requestEvents.length} request events. Start processing...`)
     for(let requestEvent of requestEvents) {
-      const fullfilEvent = await getChainlinkFulfilled(from, to, requestEvent.requestId)
-      if (fullfilEvent.length === 0) {
+      const isFulfilled = await isFulfilledRequest(requestEvent.requestId)
+      if (!isFulfilled) {
         console.log('Request without fulfillment found! Blocknumber is ' + Number(requestEvent.blockNumber))
         const { requestId, payment, callbackAddr, callbackFunctionId, cancelExpiration } = requestEvent
         const data = FAKE_RESPONSE
