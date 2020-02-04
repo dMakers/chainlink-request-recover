@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  chainlink-request-recover-eth-usd:
+    build: .
+    image: dmakers/chainlink-request-recover
+    command: npm run find-missing-requests
+    # restart: always
+    environment:
+      ORACLE_ADDRESS: '0x'
+      START_BLOCK: '9150000'
+      JOB_ID: ''
+      RPC_URL:
+      BLOCK_INTERVAL: 20000
+      NODE_ADDRESS: '0x'
+      FAKE_RESPONSE: ''
+      GAS_PRICE: 2
+    volumes:
+      - /data/dmakers:/app/storage
+
+  chainlink-request-tx:
+    build: .
+    image: dmakers/chainlink-request-recover
+    command: npm run fulfill-requests
+    # restart: always
+    environment:
+      ORACLE_ADDRESS: '0x'
+      RPC_URL:
+      NODE_ADDRESS: '0x'
+      PRIVATE_KEY: #without 0x
+      GAS_PRICE: 2
+    volumes:
+      - /data/dmakers:/app/storage
