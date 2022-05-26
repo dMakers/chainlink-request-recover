@@ -8,7 +8,8 @@ const {
   ORACLE_ADDRESS,
   PRIVATE_KEY,
   GAS_PRICE,
-  RPC_URL
+  RPC_URL,
+  JOB_ID
 } = process.env
 
 const web3 = new Web3(RPC_URL, null, { transactionConfirmationBlocks: 1 })
@@ -18,7 +19,7 @@ web3.eth.defaultAccount = account.address
 const oracle = new web3.eth.Contract(ORACLE_ABI, ORACLE_ADDRESS)
 
 async function main() {
-  const file = '[' + fs.readFileSync('./storage/unfulfilled_requests').slice(0, -2) + ']'
+  const file = '[' + fs.readFileSync(`./storage/unfulfilled_requests_${JOB_ID}`).slice(0, -2) + ']'
   const txs = JSON.parse(file)
   let nonce = await web3.eth.getTransactionCount(account.address)
   console.log('nonce', nonce)
