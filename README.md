@@ -12,6 +12,7 @@ Prepare `.env` file
 | --- | --- |
 | ORACLE_ADDRESS | Oracle contract address |
 | START_BLOCK | When to start collecting events |
+| END_BLOCK | When to stop collecting events |
 | JOB_ID | Job id to look up |
 | NODE_ADDRESS | Whitelisted key on your Oracle address for validation |
 | FAKE_RESPONSE | Node operator response for unfullfiled job |
@@ -22,7 +23,7 @@ Prepare `.env` file
 
 
 2. `npm i`
-3. `npm run find-missing-requests` - creates `unfulfilled_requests` file when missing requests found
+3. `npm run find-missing-requests` - creates `unfulfilled_requests_JOBID` file when missing requests found
 
 Example:
 ```

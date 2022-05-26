@@ -9,6 +9,7 @@ const Web3Utils = require('web3-utils')
 const {
   ORACLE_ADDRESS,
   START_BLOCK,
+  END_BLOCK,
   JOB_ID,
   NODE_ADDRESS,
   FAKE_RESPONSE,
@@ -17,6 +18,7 @@ const {
 } = process.env
 const params = {ORACLE_ADDRESS,
   START_BLOCK,
+  END_BLOCK,
   JOB_ID,
   NODE_ADDRESS,
   FAKE_RESPONSE,
@@ -99,7 +101,7 @@ async function main() {
   const step = Number(BLOCK_INTERVAL)
   let from
   let to
-  for(let i = Number(START_BLOCK); i < 9410087; i += step) {
+  for(let i = Number(START_BLOCK); i < Number(END_BLOCK); i += step) {
     from = Web3Utils.toHex(i)
     to = '0x' + (Number(from) + step).toString(16)
     console.log(`Start processing blocks from ${i} to ${Number(to)}`)
@@ -116,7 +118,7 @@ async function main() {
           from: NODE_ADDRESS
         })
         if (succesfullFulfill) {
-          await fs.appendFile('./storage/unfulfilled_requests', JSON.stringify(tx) + ',\n', () => {})
+          await fs.appendFile(`./storage/unfulfilled_requests_${JOB_ID}`, JSON.stringify(tx) + ',\n', () => {})
         } else {
           console.log('Something wrong with this request, we cannot fulfill it', requestEvent)
         }
